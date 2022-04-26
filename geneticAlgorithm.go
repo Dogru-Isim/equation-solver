@@ -10,8 +10,8 @@ import(
 
 func operation(x, y, z float64)float64 {
 	//return x * 9 - y * 4 + z / 3 - 25
-	return x*3 - y*5 + z/2 - 13/25
-
+	return x*3 - y*5 + z/2 - 5
+}
 
 func fitness(x, y, z float64)float64 {
 	res := operation(x, y, z)
@@ -35,7 +35,7 @@ func main() {
 		solutions[solutionNum] = [3]float64{value1, value2, value3}
 	}
 
-	for i := 0; i <10000000; i++ {
+	for i := 0; i <1000000; i++ {
 		var rankedSolutions [1000][4]float64
 		var rankedValues []float64
 		for sNum, s := range solutions {
@@ -56,11 +56,11 @@ func main() {
 			}
 		}
 
-                fmt.Printf("=-=-=-=-=-=-=-=-=-=-Best of generation %d-=-=-=-=-=-=-=-=-=\n", i)
+                fmt.Printf("\n=-=-=-=-=-=-=-=-=-=-Best of generation %d-=-=-=-=-=-=-=-=-=\n", i)
                 fmt.Println(bestSolutions[len(bestSolutions)-1])
 
 
-		if bestSolutions[len(bestSolutions)-1][0] > 500000{
+		if bestSolutions[len(bestSolutions)-1][0] > 50000{
 			break
 		}
 
@@ -75,23 +75,29 @@ func main() {
 			e2 := elements[rand.Intn(100)][1] + rand.Float64() * 0.00001
 			e3 := elements[rand.Intn(100)][2] + rand.Float64() * 0.00001
 
-			if 0 == rand.Intn(6) {
-				newGen[i] = [3]float64{-e1, e2, e3}
-			} else if 1 == rand.Intn(6) {
-				newGen[i] = [3]float64{e1, -e2, e3}
-			} else if 2 == rand.Intn(6) {
-                                newGen[i] = [3]float64{e1, e2, -e3}
-                        } else if 3 == rand.Intn(6) {
-                                newGen[i] = [3]float64{-e1, -e2, e3}
-                        } else if 4 == rand.Intn(6) {
-                                newGen[i] = [3]float64{-e1, e2, -e3}
-                        } else if 5 == rand.Intn(6) {
-                                newGen[i] = [3]float64{e1, -e2, -e3}
-                        } else if 6 == rand.Intn(6) {
-                                newGen[i] = [3]float64{-e1, -e2, -e3}
-                        }
-		}
+			switch rand.Intn(6) {
+			case 0:
+				newGen[i] = [3]float64{-e1,e2,e3}
 
+			case 1:
+				newGen[i] = [3]float64{e1,-e2,e3}
+
+			case 2:
+				newGen[i] = [3]float64{e1,e2,-e3}
+
+			case 3:
+				newGen[i] = [3]float64{-e1,-e2,e3}
+
+			case 4:
+				newGen[i] = [3]float64{-e1,e2,-e3}
+
+			case 5:
+				newGen[i] = [3]float64{e1,-e2,-e3}
+
+			case 6:
+				newGen[i] = [3]float64{-e1,-e2,-e3}
+			}
+		}
 		solutions = newGen
 	}
 }
