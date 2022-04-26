@@ -10,7 +10,7 @@ import(
 
 func operation(x, y, z float64)float64 {
 	//return x * 9 - y * 4 + z / 3 - 25
-	return x*3 - y*5 + z/2 - 5
+	return x*3 - y*5 + z/2 - 999
 }
 
 func fitness(x, y, z float64)float64 {
@@ -60,7 +60,7 @@ func main() {
                 fmt.Println(bestSolutions[len(bestSolutions)-1])
 
 
-		if bestSolutions[len(bestSolutions)-1][0] > 50000{
+		if bestSolutions[len(bestSolutions)-1][0] > 50000.{
 			break
 		}
 
@@ -71,32 +71,33 @@ func main() {
 
 		var newGen [1000][3]float64
 		for i := 0; i <1000; i++ {
-			e1 := elements[rand.Intn(100)][0] + rand.Float64() * 0.00001
-			e2 := elements[rand.Intn(100)][1] + rand.Float64() * 0.00001
-			e3 := elements[rand.Intn(100)][2] + rand.Float64() * 0.00001
+			e1 := elements[rand.Intn(100)][0]
+			e2 := elements[rand.Intn(100)][1]
+			e3 := elements[rand.Intn(100)][2]
 
-			switch rand.Intn(6) {
+			switch rand.Intn(2) {
 			case 0:
-				newGen[i] = [3]float64{-e1,e2,e3}
+				e1 = e1 + (e1 * 2./100.)	// increase by 2 percent 
+			case 1:
+				e1 = e1 - (e1 * 2./100.)	// decrease by 2 percent
+			}
+
+			switch rand.Intn(2) {
+			case 0:
+				e2 = e2 + (e2 * 2./100.)
 
 			case 1:
-				newGen[i] = [3]float64{e1,-e2,e3}
-
-			case 2:
-				newGen[i] = [3]float64{e1,e2,-e3}
-
-			case 3:
-				newGen[i] = [3]float64{-e1,-e2,e3}
-
-			case 4:
-				newGen[i] = [3]float64{-e1,e2,-e3}
-
-			case 5:
-				newGen[i] = [3]float64{e1,-e2,-e3}
-
-			case 6:
-				newGen[i] = [3]float64{-e1,-e2,-e3}
+				e2 = e2 - (e2 * 2./100.)
 			}
+
+			switch rand.Intn(2) {
+			case 0:
+				e3 = e3 + (e3 * 2./100.)
+			case 1:
+				e3 = e3 - (e3 * 2./100.)
+			}
+
+			newGen[i] = [3]float64{e1,e2,e3}
 		}
 		solutions = newGen
 	}
